@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kali Linux | Descarga Oficial</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%239C92AC' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .download-button {
+            background: linear-gradient(135deg, #09ec03 0%, #00a805 100%);
+            transition: all 0.3s ease;
+        }
+        .download-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 168, 5, 0.3);
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-gray-200 font-sans">
+
+    <!-- Header -->
+    <header class="gradient-bg shadow-lg">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <i class="fas fa-dragon text-white text-3xl"></i>
+                <span class="text-white text-2xl font-bold">Kali Linux</span>
+            </div>
+            <nav class="hidden md:flex space-x-6">
+                <a href="#" class="text-white hover:text-gray-200">Descargas</a>
+                <a href="#" class="text-white hover:text-gray-200">Documentación</a>
+                <a href="#" class="text-white hover:text-gray-200">Foros</a>
+                <a href="#" class="text-white hover:text-gray-200">Acerca de</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-6 py-12">
+        <div class="max-w-4xl mx-auto text-center">
+            <h1 class="text-5xl font-extrabold mb-4">Descarga Kali Linux</h1>
+            <p class="text-xl text-gray-400 mb-8">
+                Nuestra imagen más actualizada y lista para usar, con las últimas herramientas y actualizaciones de seguridad.
+            </p>
+
+            <!-- Tarjeta de Descarga -->
+            <div class="bg-gray-800 rounded-lg shadow-2xl p-8 text-left">
+                <h2 class="text-3xl font-semibold mb-6 border-b border-gray-700 pb-4">
+                    <i class="fas fa-download mr-3"></i>Imágenes de Instalación
+                </h2>
+                
+                <div class="flex flex-col md:flex-row items-center justify-between bg-gray-700/50 rounded-lg p-6 mb-6">
+                    <div class="mb-4 md:mb-0">
+                        <h3 class="text-2xl font-bold" id="nombre-archivo">Kali-Codebar.iso</h3>
+                        <p class="text-gray-400">
+                            <i class="fas fa-hdd mr-2"></i>Tamaño: <span id="tamano-archivo">4.2 GB</span>
+                            <span class="ml-4"><i class="fas fa-calendar mr-2"></i>Publicado: 28 de Noviembre de 2025</span>
+                        </p>
+                    </div>
+                    <div class="flex-shrink-0">
+                        <button id="boton-descarga" class="download-button text-white font-bold py-3 px-8 rounded-full shadow-lg flex items-center space-x-2">
+                            <i class="fas fa-download"></i>
+                            <span>Descargar ISO</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="bg-blue-900/30 border-l-4 border-blue-500 p-4 rounded">
+                    <p class="text-sm">
+                        <strong>Verificación recomendada:</strong> Tras la descarga, verifica la integridad del archivo usando su <a href="#" class="text-blue-400 underline">SHA256SUM</a>.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="mt-20 bg-gray-800 border-t border-gray-700">
+        <div class="container mx-auto px-6 py-8 text-center text-gray-400">
+            <p>&copy; 2025 Offensive Security. Todos los derechos reservados.</p>
+            <p class="mt-2">Kali® es una marca registrada de Offensive Security.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // --- CONFIGURACIÓN ---
+            // El nombre del archivo ya está configurado en "Kali-Codebar.iso"
+            const nombreArchivo = "Kali-Codebar.iso"; 
+            // Puedes ajustar el tamaño aquí si lo necesitas
+            const tamanoArchivo = "4.2 GB";
+
+            // --- DATOS DEL ARCHIVO ---
+            // Pega tu cadena Base64 aquí, dentro de las comillas.
+            // IMPORTANTE: Reemplaza la línea de abajo, no añadas comillas extra.
+            const archivoBase64 = "";
+
+            // --- LÓGICA DE LA INTERFAZ ---
+            const nombreArchivoElemento = document.getElementById('nombre-archivo');
+            const tamanoArchivoElemento = document.getElementById('tamano-archivo');
+            const botonDescarga = document.getElementById('boton-descarga');
+
+            // Actualizar la interfaz con los datos configurados
+            nombreArchivoElemento.textContent = nombreArchivo;
+            tamanoArchivoElemento.textContent = tamanoArchivo;
+
+            // Crear el Blob y la URL de descarga a partir del Base64
+            let descargaUrl = '';
+            try {
+                // Decodificar el Base64 a datos binarios
+                const byteCharacters = atob(archivoBase64);
+                const byteNumbers = new Array(byteCharacters.length);
+                for (let i = 0; i < byteCharacters.length; i++) {
+                    byteNumbers[i] = byteCharacters.charCodeAt(i);
+                }
+                const byteArray = new Uint8Array(byteNumbers);
+                
+                // Crear un Blob (objeto de archivo binario)
+                const blob = new Blob([byteArray], { type: 'application/octet-stream' });
+                
+                // Crear una URL temporal para ese Blob
+                descargaUrl = URL.createObjectURL(blob);
+            } catch (error) {
+                console.error("Error al procesar el archivo Base64. Asegúrate de que la cadena es correcta.", error);
+                botonDescarga.textContent = "Error en el archivo";
+                botonDescarga.disabled = true;
+                botonDescarga.classList.remove('download-button');
+                botonDescarga.classList.add('bg-red-600');
+                return;
+            }
+
+            // Asignar la acción de descarga al botón
+            botonDescarga.addEventListener('click', function () {
+                const a = document.createElement('a');
+                a.href = descargaUrl;
+                a.download = nombreArchivo; // Esto fuerza el nombre del archivo al descargar
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+            });
+        });
+    </script>
+
+</body>
+</html>
