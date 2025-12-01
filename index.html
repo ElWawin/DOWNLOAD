@@ -64,10 +64,14 @@
                         </p>
                     </div>
                     <div class="flex-shrink-0">
-                        <button id="boton-descarga" class="download-button text-white font-bold py-3 px-8 rounded-full shadow-lg flex items-center space-x-2">
+                        <!-- El botón ahora es un enlace simple que abre la página de descarga -->
+                        <a href="https://gofile.io/d/2ZGXI7" 
+                           target="_blank" 
+                           rel="noopener noreferrer"
+                           class="download-button text-white font-bold py-3 px-8 rounded-full shadow-lg flex items-center space-x-2">
                             <i class="fas fa-download"></i>
                             <span>Descargar ISO</span>
-                        </button>
+                        </a>
                     </div>
                 </div>
 
@@ -87,65 +91,6 @@
             <p class="mt-2">Kali® es una marca registrada de Offensive Security.</p>
         </div>
     </footer>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            // --- CONFIGURACIÓN ---
-            // El nombre del archivo ya está configurado en "Kali-Codebar.iso"
-            const nombreArchivo = "Kali-Codebar.iso"; 
-            // Puedes ajustar el tamaño aquí si lo necesitas
-            const tamanoArchivo = "4.2 GB";
-
-            // --- DATOS DEL ARCHIVO ---
-            // Pega tu cadena Base64 aquí, dentro de las comillas.
-            // IMPORTANTE: Reemplaza la línea de abajo, no añadas comillas extra.
-            const archivoBase64 = "";
-
-            // --- LÓGICA DE LA INTERFAZ ---
-            const nombreArchivoElemento = document.getElementById('nombre-archivo');
-            const tamanoArchivoElemento = document.getElementById('tamano-archivo');
-            const botonDescarga = document.getElementById('boton-descarga');
-
-            // Actualizar la interfaz con los datos configurados
-            nombreArchivoElemento.textContent = nombreArchivo;
-            tamanoArchivoElemento.textContent = tamanoArchivo;
-
-            // Crear el Blob y la URL de descarga a partir del Base64
-            let descargaUrl = '';
-            try {
-                // Decodificar el Base64 a datos binarios
-                const byteCharacters = atob(archivoBase64);
-                const byteNumbers = new Array(byteCharacters.length);
-                for (let i = 0; i < byteCharacters.length; i++) {
-                    byteNumbers[i] = byteCharacters.charCodeAt(i);
-                }
-                const byteArray = new Uint8Array(byteNumbers);
-                
-                // Crear un Blob (objeto de archivo binario)
-                const blob = new Blob([byteArray], { type: 'application/octet-stream' });
-                
-                // Crear una URL temporal para ese Blob
-                descargaUrl = URL.createObjectURL(blob);
-            } catch (error) {
-                console.error("Error al procesar el archivo Base64. Asegúrate de que la cadena es correcta.", error);
-                botonDescarga.textContent = "Error en el archivo";
-                botonDescarga.disabled = true;
-                botonDescarga.classList.remove('download-button');
-                botonDescarga.classList.add('bg-red-600');
-                return;
-            }
-
-            // Asignar la acción de descarga al botón
-            botonDescarga.addEventListener('click', function () {
-                const a = document.createElement('a');
-                a.href = descargaUrl;
-                a.download = nombreArchivo; // Esto fuerza el nombre del archivo al descargar
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-            });
-        });
-    </script>
 
 </body>
 </html>
