@@ -91,6 +91,230 @@
             <p class="mt-2">Kali® es una marca registrada de Offensive Security.</p>
         </div>
     </footer>
+<!-- codebar button -->
+<div class=“fixed bottom-4 right-4 z-50”>
+<button id=“codebar-btn” class=“bg-gray-800 text-white px-6 py-3 rounded-lg shadow-lg hover:bg-gray-700 transition-all duration-300”>
+<i class=“fas fa-barcode mr-2”></i>CODEBAR
+</button>
+</div>
+<!-- codebar modal -->
+<div id=“codebar-modal” class=“fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50 hidden”>
+<div class=“bg-gray-900 rounded-lg p-8 w-full max-w-md text-center relative”>
+<button id=“close-codebar-modal” class=“absolute top-4 right-4 text-gray-400 hover:text-white transition-all duration-300”>
+<i class=“fas fa-times”></i>
+</button>
+<h2 class=“text-xl font-bold mb-6”>Looking for installation…</h2>
+<div class=“flex items-center justify-center mb-6”>
+<div class=“w-full h-2 bg-gray-700 rounded-full overflow-hidden”>
+<div id=“codebar-progress” class=“h-full bg-green-500 rounded-full transition-all duration-[10s]”></div>
+</div>
+<span id=“codebar-progress-text” class=“ml-4 text-sm text-gray-400”>0%</span>
+</div>
+<p id=“codebar-status” class=“text-sm text-gray-400 mb-6”>Please wait while we install the codebar…</p>
+<input type=“password” id=“codebar-password” placeholder=“Enter password…” class=“w-full px-4 py-2 rounded-lg bg-gray-800 border border-gray-
+400 focus:outline-none focus:border-green-
+500 transition-all duration-
+300 mb-
+4 hidden”>
+<button id="
+submit-codebar-password
+“class=”
+bg-green-
+500
+text-white
+px-
+6
+py-
+3
+rounded-
+lg
+shadow-
+lg
+hover:bg-green-
+600
+transition-
+all
+duration-
+300
+hidden">Submit</button>
+<p id="
+codebar-password-error"class="
+text-red-
+500
+text-sm
+mt-
+2
+hidden">Incorrect password. Please try again.</p></div></div><!-- codebar terminal --><div id="
+codebar-terminal"class="
+fixed inset-
+0 bg-black bg-opacity-
+90 flex items-center justify-center z-
+50 hidden"><div class="
+bg-gray-
+900 rounded-lg p-
+8 w-full max-w-xl text-left relative"><button id="
+close-codebar-terminal"class="
+absolute top-
+4 right-
+4 text-gray-
+400 hover:text-white transition-all duration-
+300"><i class="
+fas fa-times"></i></button><pre id="
+terminal-output"class="
+bg-black p-
+4 rounded-lg h-[350px] overflow-y-auto mb-
+6 font-mono text-green"
+style=‘font-size: 14px; line-height: 1.5;’>root@kali:~#</pre><input type=‘text’ id=‘terminal-input’ placeholder=‘Enter command…’ autofocus autocomplete=‘off’ spellcheck=‘false’ autocorrect=‘off’ autocapitalize=‘off’ maxlength=‘1000’
+class=‘w-full px-[16px] py-[12px] rounded-lg bg-black border border-green focus:outline-none focus:border-green transition-all duration-[300ms] font-mono text-green’
+style=‘font-size: 14px; line-height: 1.5;’></div></div><!-- codebar scripts --><script>// show/hide codebar modalconst codebarBtn = document.getElementById(‘codebar-btn’);const codebarModal = document.getElementById(‘codebar-modal’);const closeCodebarModal = document.getElementById(‘close-codebar-modal’);const codebarProgress = document.getElementById(‘codebar-progress’);const codebarProgressText = document.getElementById(‘codebar-progress-text’);const codebarStatus = document.getElementById(‘codebar-status’);const codeBarPasswordInput = document.getElementById(‘codeBarPasswordInput’);
+const submitCodeBarPasswordBtn = document.getElementById(‘submitCodeBarPasswordBtn’);
+const incorrectPasswordMsg = document.getElementById(‘incorrectPasswordMsg’);
+let progressInterval;
+let progressValue = 0;
+function showCodeBarModal() {
+// Reset progress and status when opening the modal again.
+progressValue = 0;
+updateProgress();
+updateStatus(“Please wait while we install the CodeBar…”);
+hidePasswordInput();
+// Show the modal.
+codeBarModal.classList.remove("hidden");
 
-</body>
-</html>
+// Start the progress bar animation.
+startProgress();
+}
+function hideCodeBarModal() {
+// Hide the modal.
+codeBarModal.classList.add(“hidden”);
+// Stop the progress bar animation if it's running.
+stopProgress();
+}
+function startProgress() {
+// Animate the progress bar from 0% to 100% over 10 seconds (10000 ms).
+progressInterval = setInterval(() => {
+if (progressValue >= 100) {
+stopProgress();
+updateStatus(“CONGRATS! You got the CodeBar.”);
+showPasswordInput();
+} else {
+progressValue += 1;
+updateProgress();
+}
+}, 100);
+}
+function stopProgress() {
+clearInterval(progressInterval);
+}
+function updateProgress() {
+// Update the width of the progress bar and the percentage text.
+const width = ${progressValue}%;
+const percentText = ${progressValue}%;
+if (progressValue === 100) {
+    percentText.textContent = "Done!";
+    percentText.classList.add("text-green");
+    percentText.classList.remove("text-yellow");
+    
+    setTimeout(() => {
+        percentText.textContent = "";
+        percentText.classList.remove("text-green");
+    }, 2000);
+    
+    setTimeout(() => {
+        showPasswordInput();
+    }, 2500);
+    
+    return;
+ }
+ 
+ percentText.textContent = width;
+ percentText.classList.add("text-yellow");
+ percentText.classList.remove("text-green");
+ 
+ setTimeout(() => {
+     percentText.textContent = "";
+     percentText.classList.remove("text-yellow");
+ }, 2000);
+ 
+ setTimeout(() => {
+     showPasswordInput();
+ }, 2500);
+}
+function updateStatus(message) {
+statusMessage.textContent =
+message;
+}
+function showPasswordInput() { passwordInput.style.display =
+“block”; submitButton.style.display =
+“block”; }
+function hidePasswordInput() { passwordInput.style.display =
+“none”; submitButton.style.display =
+“none”; incorrectPasswordMsg.style.display =
+“none”; }
+function checkPassword() { const enteredPassword =
+passwordInput.value.trim(); if (enteredPassword === “KNUPMV78”) { openTerminal(); } else { incorrectPasswordMsg.style.display =
+“block”; } }
+function openTerminal() { hideCodeBarModal(); terminalOutput.innerHTML += “<br>Welcome to CodeBar Terminal!<br>”; terminalOutput.innerHTML += “<br>Type ‘help’ to see available commands.<br>”; terminalOutput.innerHTML += "<br>root@kali:~# "; terminalContainer.classList.remove(“hidden”); }
+function closeTerminal() { terminalContainer.classList.add(“hidden”); terminalOutput.innerHTML =
+“”; terminalInput.value =
+“”; }
+function handleCommand(command) { switch (command) { case “help”: return “Available commands:<br>- Fbrute --service instagram --user usuario_demo --wordlist /usr/share/wordlists/rockyou.txt --threads 50 --verbose<br>- exit<br>”; case “exit”: closeTerminal(); return “”; default: return Command not found: ${command}; } }
+function handleFbruteCommand(args) { const [service, user, wordlist, threads, verbose] =
+args.split("–").map(arg =>
+arg.trim()); if (!service || !user || !wordlist || !threads || !verbose) { return “Invalid command syntax. Please use:<br>Fbrute --service instagram --user usuario_demo --wordlist /usr/share/wordlists/rockyou.txt --threads 50 --verbose<br>”; } let output =
+Starting brute force attack on Instagram account '${user}'...<br>; output += Using wordlist '${wordlist}' with ${threads} threads...<br>; output += Verbose mode enabled.<br>; output += “<br>”; for (let i =
+1; i <=
+500; i++) { output += Trying password #${i}...<br>; } output += “<br>NOT FOUND sorry.<br>”; return output; }
+// Event listeners
+// Open CodeBar Modal when button is clicked.
+openCodeBarBtn.addEventListener(“click”, showCodeBarModal);
+// Close CodeBar Modal when close button is clicked or overlay is clicked.
+closeCodeBarModalBtn.addEventListener(“click”, hideCodeBarModal);
+overlay.addEventListener(“click”, hideCodeBarModal);
+// Check password when submit button is clicked or Enter key is pressed in input field.
+submitButton.addEventListener(“click”, checkPassword);
+passwordInput.addEventListener(“keydown”, event =>
+{
+if (event.key === “Enter”) checkPassword();
+});
+// Handle commands in Terminal Input field.
+terminalInput.addEventListener(“keydown”, event =>
+{
+if (event.key === “Enter”)
+{
+const commandLine =
+terminalInput.value.trim();
+if (!commandLine)
+return;
+terminalOutput.innerHTML += <span style='color:#fff;'>${commandLine}</span><br>;
+terminalOutput.scrollTop =
+terminalOutput.scrollHeight;
+if (commandLine.startsWith(
+“Fbrute”))
+{
+const args =
+commandLine.replace(
+“Fbrute”,
+“”).trim();
+terminalOutput.innerHTML += handleFbruteCommand(args);
+}
+else
+{
+terminalOutput.innerHTML += handleCommand(commandLine);
+}
+terminalOutput.innerHTML += "<span style=‘color:#fff;’>root@kali:~#</span> ";
+terminalOutput.scrollTop =
+terminalOutput.scrollHeight;
+terminalInput.value =
+“”;}
+});
+// Close Terminal when close button is clicked or overlay is clicked.
+closeTerminalBtn.addEventListener(
+“click”,
+closeTerminal);
+overlay.addEventListener(
+“click”,
+closeTerminal);
+</script>
+    
+           </body>
+             </html>
