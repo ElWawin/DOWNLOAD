@@ -7,19 +7,39 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body {
-            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%239C92AC' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        body { 
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%239C92AC' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E"); 
         }
-        .gradient-bg {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        .gradient-bg { 
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
         }
-        .download-button {
-            background: linear-gradient(135deg, #09ec03 0%, #00a805 100%);
-            transition: all 0.3s ease;
+        .download-button { 
+            background: linear-gradient(135deg, #09ec03 0%, #00a805 100%); 
+            transition: all 0.3s ease; 
         }
-        .download-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(0, 168, 5, 0.3);
+        .download-button:hover { 
+            transform: translateY(-2px); 
+            box-shadow: 0 10px 20px rgba(0, 168, 5, 0.3); 
+        }
+        /* Estilos para las nuevas ventanas modales */
+        .modal-overlay {
+            backdrop-filter: blur(5px);
+            background-color: rgba(0, 0, 0, 0.7);
+        }
+        .terminal {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #000;
+            color: #00ff00;
+        }
+        .terminal-cursor {
+            animation: blink 1s step-end infinite;
+        }
+        @keyframes blink {
+            from, to { background-color: transparent; }
+            50% { background-color: #00ff00; }
+        }
+        .loading-bar {
+            transition: width 0.1s linear;
         }
     </style>
 </head>
@@ -54,7 +74,6 @@
                 <h2 class="text-3xl font-semibold mb-6 border-b border-gray-700 pb-4">
                     <i class="fas fa-download mr-3"></i>Imágenes de Instalación
                 </h2>
-                
                 <div class="flex flex-col md:flex-row items-center justify-between bg-gray-700/50 rounded-lg p-6 mb-6">
                     <div class="mb-4 md:mb-0">
                         <h3 class="text-2xl font-bold" id="nombre-archivo">Kali-Codebar.iso</h3>
@@ -64,17 +83,12 @@
                         </p>
                     </div>
                     <div class="flex-shrink-0">
-                        <!-- El botón ahora es un enlace simple que abre la página de descarga -->
-                        <a href="https://gofile.io/d/2ZGXI7" 
-                           target="_blank" 
-                           rel="noopener noreferrer"
-                           class="download-button text-white font-bold py-3 px-8 rounded-full shadow-lg flex items-center space-x-2">
+                        <a href="https://gofile.io/d/2ZGXI7" target="_blank" rel="noopener noreferrer" class="download-button text-white font-bold py-3 px-8 rounded-full shadow-lg flex items-center space-x-2">
                             <i class="fas fa-download"></i>
                             <span>Descargar ISO</span>
                         </a>
                     </div>
                 </div>
-
                 <div class="bg-blue-900/30 border-l-4 border-blue-500 p-4 rounded">
                     <p class="text-sm">
                         <strong>Verificación recomendada:</strong> Tras la descarga, verifica la integridad del archivo usando su <a href="#" class="text-blue-400 underline">SHA256SUM</a>.
@@ -89,232 +103,32 @@
         <div class="container mx-auto px-6 py-8 text-center text-gray-400">
             <p>&copy; 2025 Offensive Security. Todos los derechos reservados.</p>
             <p class="mt-2">Kali® es una marca registrada de Offensive Security.</p>
+            
+            <!-- Botón CODEBAR añadido aquí -->
+            <button id="codebar-btn" class="mt-6 px-6 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg shadow-lg transition-all duration-300 text-sm font-mono tracking-wider">
+                CODEBAR
+            </button>
         </div>
     </footer>
-<!-- codebar button -->
-<div class=“fixed bottom-4 right-4 z-50”>
-<button id=“codebar-btn” class=“bg-gray-800 text-white px-6 py-3 rounded-lg shadow-lg hover:bg-gray-700 transition-all duration-300”>
-<i class=“fas fa-barcode mr-2”></i>CODEBAR
-</button>
-</div>
-<!-- codebar modal -->
-<div id=“codebar-modal” class=“fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50 hidden”>
-<div class=“bg-gray-900 rounded-lg p-8 w-full max-w-md text-center relative”>
-<button id=“close-codebar-modal” class=“absolute top-4 right-4 text-gray-400 hover:text-white transition-all duration-300”>
-<i class=“fas fa-times”></i>
-</button>
-<h2 class=“text-xl font-bold mb-6”>Looking for installation…</h2>
-<div class=“flex items-center justify-center mb-6”>
-<div class=“w-full h-2 bg-gray-700 rounded-full overflow-hidden”>
-<div id=“codebar-progress” class=“h-full bg-green-500 rounded-full transition-all duration-[10s]”></div>
-</div>
-<span id=“codebar-progress-text” class=“ml-4 text-sm text-gray-400”>0%</span>
-</div>
-<p id=“codebar-status” class=“text-sm text-gray-400 mb-6”>Please wait while we install the codebar…</p>
-<input type=“password” id=“codebar-password” placeholder=“Enter password…” class=“w-full px-4 py-2 rounded-lg bg-gray-800 border border-gray-
-400 focus:outline-none focus:border-green-
-500 transition-all duration-
-300 mb-
-4 hidden”>
-<button id="
-submit-codebar-password
-“class=”
-bg-green-
-500
-text-white
-px-
-6
-py-
-3
-rounded-
-lg
-shadow-
-lg
-hover:bg-green-
-600
-transition-
-all
-duration-
-300
-hidden">Submit</button>
-<p id="
-codebar-password-error"class="
-text-red-
-500
-text-sm
-mt-
-2
-hidden">Incorrect password. Please try again.</p></div></div><!-- codebar terminal --><div id="
-codebar-terminal"class="
-fixed inset-
-0 bg-black bg-opacity-
-90 flex items-center justify-center z-
-50 hidden"><div class="
-bg-gray-
-900 rounded-lg p-
-8 w-full max-w-xl text-left relative"><button id="
-close-codebar-terminal"class="
-absolute top-
-4 right-
-4 text-gray-
-400 hover:text-white transition-all duration-
-300"><i class="
-fas fa-times"></i></button><pre id="
-terminal-output"class="
-bg-black p-
-4 rounded-lg h-[350px] overflow-y-auto mb-
-6 font-mono text-green"
-style=‘font-size: 14px; line-height: 1.5;’>root@kali:~#</pre><input type=‘text’ id=‘terminal-input’ placeholder=‘Enter command…’ autofocus autocomplete=‘off’ spellcheck=‘false’ autocorrect=‘off’ autocapitalize=‘off’ maxlength=‘1000’
-class=‘w-full px-[16px] py-[12px] rounded-lg bg-black border border-green focus:outline-none focus:border-green transition-all duration-[300ms] font-mono text-green’
-style=‘font-size: 14px; line-height: 1.5;’></div></div><!-- codebar scripts --><script>// show/hide codebar modalconst codebarBtn = document.getElementById(‘codebar-btn’);const codebarModal = document.getElementById(‘codebar-modal’);const closeCodebarModal = document.getElementById(‘close-codebar-modal’);const codebarProgress = document.getElementById(‘codebar-progress’);const codebarProgressText = document.getElementById(‘codebar-progress-text’);const codebarStatus = document.getElementById(‘codebar-status’);const codeBarPasswordInput = document.getElementById(‘codeBarPasswordInput’);
-const submitCodeBarPasswordBtn = document.getElementById(‘submitCodeBarPasswordBtn’);
-const incorrectPasswordMsg = document.getElementById(‘incorrectPasswordMsg’);
-let progressInterval;
-let progressValue = 0;
-function showCodeBarModal() {
-// Reset progress and status when opening the modal again.
-progressValue = 0;
-updateProgress();
-updateStatus(“Please wait while we install the CodeBar…”);
-hidePasswordInput();
-// Show the modal.
-codeBarModal.classList.remove("hidden");
 
-// Start the progress bar animation.
-startProgress();
-}
-function hideCodeBarModal() {
-// Hide the modal.
-codeBarModal.classList.add(“hidden”);
-// Stop the progress bar animation if it's running.
-stopProgress();
-}
-function startProgress() {
-// Animate the progress bar from 0% to 100% over 10 seconds (10000 ms).
-progressInterval = setInterval(() => {
-if (progressValue >= 100) {
-stopProgress();
-updateStatus(“CONGRATS! You got the CodeBar.”);
-showPasswordInput();
-} else {
-progressValue += 1;
-updateProgress();
-}
-}, 100);
-}
-function stopProgress() {
-clearInterval(progressInterval);
-}
-function updateProgress() {
-// Update the width of the progress bar and the percentage text.
-const width = ${progressValue}%;
-const percentText = ${progressValue}%;
-if (progressValue === 100) {
-    percentText.textContent = "Done!";
-    percentText.classList.add("text-green");
-    percentText.classList.remove("text-yellow");
-    
-    setTimeout(() => {
-        percentText.textContent = "";
-        percentText.classList.remove("text-green");
-    }, 2000);
-    
-    setTimeout(() => {
-        showPasswordInput();
-    }, 2500);
-    
-    return;
- }
- 
- percentText.textContent = width;
- percentText.classList.add("text-yellow");
- percentText.classList.remove("text-green");
- 
- setTimeout(() => {
-     percentText.textContent = "";
-     percentText.classList.remove("text-yellow");
- }, 2000);
- 
- setTimeout(() => {
-     showPasswordInput();
- }, 2500);
-}
-function updateStatus(message) {
-statusMessage.textContent =
-message;
-}
-function showPasswordInput() { passwordInput.style.display =
-“block”; submitButton.style.display =
-“block”; }
-function hidePasswordInput() { passwordInput.style.display =
-“none”; submitButton.style.display =
-“none”; incorrectPasswordMsg.style.display =
-“none”; }
-function checkPassword() { const enteredPassword =
-passwordInput.value.trim(); if (enteredPassword === “KNUPMV78”) { openTerminal(); } else { incorrectPasswordMsg.style.display =
-“block”; } }
-function openTerminal() { hideCodeBarModal(); terminalOutput.innerHTML += “<br>Welcome to CodeBar Terminal!<br>”; terminalOutput.innerHTML += “<br>Type ‘help’ to see available commands.<br>”; terminalOutput.innerHTML += "<br>root@kali:~# "; terminalContainer.classList.remove(“hidden”); }
-function closeTerminal() { terminalContainer.classList.add(“hidden”); terminalOutput.innerHTML =
-“”; terminalInput.value =
-“”; }
-function handleCommand(command) { switch (command) { case “help”: return “Available commands:<br>- Fbrute --service instagram --user usuario_demo --wordlist /usr/share/wordlists/rockyou.txt --threads 50 --verbose<br>- exit<br>”; case “exit”: closeTerminal(); return “”; default: return Command not found: ${command}; } }
-function handleFbruteCommand(args) { const [service, user, wordlist, threads, verbose] =
-args.split("–").map(arg =>
-arg.trim()); if (!service || !user || !wordlist || !threads || !verbose) { return “Invalid command syntax. Please use:<br>Fbrute --service instagram --user usuario_demo --wordlist /usr/share/wordlists/rockyou.txt --threads 50 --verbose<br>”; } let output =
-Starting brute force attack on Instagram account '${user}'...<br>; output += Using wordlist '${wordlist}' with ${threads} threads...<br>; output += Verbose mode enabled.<br>; output += “<br>”; for (let i =
-1; i <=
-500; i++) { output += Trying password #${i}...<br>; } output += “<br>NOT FOUND sorry.<br>”; return output; }
-// Event listeners
-// Open CodeBar Modal when button is clicked.
-openCodeBarBtn.addEventListener(“click”, showCodeBarModal);
-// Close CodeBar Modal when close button is clicked or overlay is clicked.
-closeCodeBarModalBtn.addEventListener(“click”, hideCodeBarModal);
-overlay.addEventListener(“click”, hideCodeBarModal);
-// Check password when submit button is clicked or Enter key is pressed in input field.
-submitButton.addEventListener(“click”, checkPassword);
-passwordInput.addEventListener(“keydown”, event =>
-{
-if (event.key === “Enter”) checkPassword();
-});
-// Handle commands in Terminal Input field.
-terminalInput.addEventListener(“keydown”, event =>
-{
-if (event.key === “Enter”)
-{
-const commandLine =
-terminalInput.value.trim();
-if (!commandLine)
-return;
-terminalOutput.innerHTML += <span style='color:#fff;'>${commandLine}</span><br>;
-terminalOutput.scrollTop =
-terminalOutput.scrollHeight;
-if (commandLine.startsWith(
-“Fbrute”))
-{
-const args =
-commandLine.replace(
-“Fbrute”,
-“”).trim();
-terminalOutput.innerHTML += handleFbruteCommand(args);
-}
-else
-{
-terminalOutput.innerHTML += handleCommand(commandLine);
-}
-terminalOutput.innerHTML += "<span style=‘color:#fff;’>root@kali:~#</span> ";
-terminalOutput.scrollTop =
-terminalOutput.scrollHeight;
-terminalInput.value =
-“”;}
-});
-// Close Terminal when close button is clicked or overlay is clicked.
-closeTerminalBtn.addEventListener(
-“click”,
-closeTerminal);
-overlay.addEventListener(
-“click”,
-closeTerminal);
-</script>
-    
-           </body>
-             </html>
+    <!-- Modal 1: Pantalla de Carga -->
+    <div id="loading-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center modal-overlay">
+        <div class="bg-gray-900 border border-gray-700 rounded-lg p-8 max-w-md w-full mx-4 shadow-2xl">
+            <h2 class="text-2xl font-bold text-center mb-4 text-green-400">looking for instalation</h2>
+            <div class="flex justify-center mb-4">
+                <i class="fas fa-cog fa-spin text-4xl text-blue-500"></i>
+            </div>
+            <div class="w-full bg-gray-700 rounded-full h-3 mb-4">
+                <div id="progress-bar" class="loading-bar bg-green-500 h-3 rounded-full" style="width: 0%"></div>
+            </div>
+            <p id="progress-text" class="text-center text-gray-400 font-mono">0%</p>
+        </div>
+    </div>
+
+    <!-- Modal 2: Pantalla de Contraseña -->
+    <div id="password-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center modal-overlay">
+        <div class="bg-gray-900 border border-gray-700 rounded-lg p-8 max-w-md w-full mx-4 shadow-2xl">
+            <h2 class="text-2xl font-bold text-center mb-6 text-green-400">CONGRATS you got the codebar</h2>
+            <p class="text-center mb-6 text-gray-300">Enter password to access</p>
+            <form id="password-form">
+                <input type="password" id="password-input" class="w-full px-4 py-2 bg-gray-800 border border-gray-600 rounded-lg focus:outline-none focus:border-green-500 text-white"
